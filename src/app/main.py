@@ -3,9 +3,9 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
-from .db import get_session
-from .models import Todo
-from .schema import TodoCreate, TodoRead, TodoUpdate
+from app.db import get_session
+from app.models import Todo
+from app.schema import TodoCreate, TodoRead, TodoUpdate
 
 app = FastAPI(title="Todo")
 

@@ -2,7 +2,7 @@ from datetime import datetime
 from sqlalchemy import DateTime, func
 from sqlalchemy.orm import Mapped, mapped_column
 
-from .db import Base
+from app.db import Base
 
 class Todo(Base):
     __tablename__ = "todos"
