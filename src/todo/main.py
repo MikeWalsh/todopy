@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from .\schema import TodoCreate, TodoRead, TodoUpdate
+from .schema import TodoCreate, TodoRead, TodoUpdate
 
 app = FastAPI(title="Todo")
 
