@@ -2,22 +2,12 @@ from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-'''temp db up'''
-from contextlib import asynccontextmanager
-from .db import Base, engine
-from . import models
 
 from .db import get_session
 from .models import Todo
 from .schema import TodoCreate, TodoRead, TodoUpdate
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-    yield   
-
-app = FastAPI(title="Todo", lifespan=lifespan)
+app = FastAPI(title="Todo")
 
 
 @app.get("/todos", response_model=list[TodoRead])
