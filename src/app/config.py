@@ -1,7 +1,12 @@
+from pathlib import Path
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env")
-    database_url: str = "postgresql+asyncpg://pguser:pg43217890fdsa@localhost:5432/tododb"
+_ENV_FILE = Path(__file__).resolve().parent.parent.parent / ".env"
 
-settings=Settings()
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(env_file=_ENV_FILE, extra="ignore")
+    database_url: str
+    debug: bool = False
+
+settings = Settings() # pyright: ignore[reportCallIssue]
