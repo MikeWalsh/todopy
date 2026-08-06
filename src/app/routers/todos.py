@@ -9,17 +9,17 @@ from app.schema import TodoCreate, TodoRead, TodoUpdate
 
 router = APIRouter(prefix='/todos', tags=["todos"])
 
-@router.get("/todos", response_model=list[TodoRead])
+@router.get("", response_model=list[TodoRead])
 async def list_todos(session: AsyncSession = Depends(get_session)):
     result = await session.execute(select(Todo).order_by(Todo.id))
     return result.scalars().all()
 
-@router.get("/todos/{todo_id}", response_model=TodoRead)
+@router.get("/{todo_id}", response_model=TodoRead)
 async def get_todo(todo_id: int,session: AsyncSession = Depends(get_session)):
     todo = await session.get(Todo, todo_id)
     return todo
 
-@router.post("/todos", response_model=TodoRead, status_code=201)
+@router.post("", response_model=TodoRead, status_code=201)
 async def create_todo(payload: TodoCreate, session: AsyncSession = Depends(get_session)):
     todo = Todo(title=payload.title)
     session.add(todo)
@@ -27,7 +27,7 @@ async def create_todo(payload: TodoCreate, session: AsyncSession = Depends(get_s
     await session.refresh(todo)
     return todo
 
-@router.patch("/todos/{todo_id}", response_model=TodoRead)
+@router.patch("/{todo_id}", response_model=TodoRead)
 async def update_todo(todo_id: int, payload: TodoUpdate, session: AsyncSession = Depends(get_session)):
     todo = await session.get(Todo, todo_id)
     if todo is None:

@@ -13,6 +13,16 @@ services:
       test: ["CMD-SHELL", "pg_isready -U pguser -d tododb"]
       interval: 5s
       retries: 5
+  test-db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: pgtest
+      POSTGRES_PASSWORD: pgtestfdsa
+      POSTGRES_DB: todo_test
+    ports:
+      - "127.0.0.1:5443:5432"
+    tmpfs:
+      - /var/lib/postgres/data
 
 volumes:
   pgdata:
