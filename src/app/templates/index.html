@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Todos</h1>
+
+<form hx-post="/web/todos" hx-target="#todo-list" hx-swap="beforeend" hx-on::after-request="this.reset()">
+    <input name="title" required autofocus>
+    <button>Add</button>
+</form>
+
+<ul id="todo-list">
+    {% for todo in todos %}{% include "partials/todo_item.html" %}{% endfor %}
+</ul>
+{% endblock %}

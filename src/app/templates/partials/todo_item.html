@@ -1,0 +1,11 @@
+<li id="todo-{{ todo.id}}">
+    <input type="checkbox"
+        {% if todo.done %}checked{% endif %}
+        hx-patch="/web/todos/{{ todo.id }}/toggle"
+        hx-target="#todo-{{ todo.id }}"
+        hx-swap="outerHTML">
+    <span class="{{ 'done' if todo.done }}">{{ todo.title }}</span>
+    <button hx-delete="/web/todos/{{ todo.id }}"
+            hx-target="#todo-{{ todo.id }}"
+            hx-swap="outerHTML">x</button>
+</li>
