@@ -9,8 +9,10 @@ engine = create_async_engine(settings.database_url, echo=True)
 
 SessionLocal = async_sessionmaker(engine, expire_on_commit=False)
 
+
 class Base(DeclarativeBase):
     pass
+
 
 async def get_session() -> AsyncGenerator[AsyncSession]:
     async with SessionLocal() as session:
