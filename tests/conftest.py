@@ -86,7 +86,8 @@ async def session(connection) -> AsyncGenerator[AsyncSession]:
 
 @pytest.fixture
 async def client(session) -> AsyncGenerator[AsyncClient]:
-    """this works because the router session uses Depends instead of SessionLocal directly"""
+    """this works because the router session uses Depends instead of
+    SessionLocal directly"""
     app.dependency_overrides[get_session] = lambda: session
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as c:

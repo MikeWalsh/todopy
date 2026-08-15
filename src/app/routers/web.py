@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Annotated
 
 from fastapi import APIRouter, Depends, Form, HTTPException, Request
 from fastapi.responses import HTMLResponse, Response
@@ -10,12 +11,13 @@ from app.db import get_session
 from app.models import Todo
 
 templates = Jinja2Templates(directory=Path(__file__).parent.parent / "templates")
+SessionDep = Annotated[AsyncSession, Depends(get_session)]
 
 router = APIRouter(tags=["web"])
 
 
 @router.get("/", response_class=HTMLResponse)
-async def index(request: Request, session: AsyncSession = Depends(get_session)):
+async def index(request: Request, session: SessionDep):
     result = await session.execute(select(Todo).order_by(Todo.id))
     return templates.TemplateResponse(
         request, "index.html", {"todos": result.scalars().all()}
@@ -25,8 +27,8 @@ async def index(request: Request, session: AsyncSession = Depends(get_session)):
 @router.post("/web/todos", response_class=HTMLResponse)
 async def create(
     request: Request,
+    session: SessionDep,
     title: str = Form(...),
-    session: AsyncSession = Depends(get_session),
 ):
     todo = Todo(title=title)
     session.add(todo)
@@ -38,9 +40,7 @@ async def create(
 
 
 @router.patch("/web/todos/{todo_id}/toggle", response_class=HTMLResponse)
-async def toggle(
-    request: Request, todo_id: int, session: AsyncSession = Depends(get_session)
-):
+async def toggle(request: Request, todo_id: int, session: SessionDep):
     todo = await session.get(Todo, todo_id)
     if todo is None:
         raise HTTPException(status_code=404)
@@ -52,7 +52,7 @@ async def toggle(
 
 
 @router.delete("/web/todos/{todo_id}")
-async def delete(todo_id: int, session: AsyncSession = Depends(get_session)):
+async def delete(todo_id: int, session: SessionDep):
     todo = await session.get(Todo, todo_id)
     if todo is not None:
         await session.delete(todo)

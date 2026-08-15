@@ -41,3 +41,25 @@ asyncio_default_test_loop_scope = "session"
 [tool.hatch.build.targets.wheel]
 packages = ["src/app"]
 artifacts = ["src/app/templates/**", "src/app.static/**"]
+
+[tool.ruff]
+line-length = 88
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W",    # pycodestyle
+    "F",         # pyflakes
+    "I",         # isort — import sorting
+    "UP",        # pyupgrade — modernise syntax
+    "B",         # bugbear — real bug patterns
+    "SIM",       # simplify
+    "RUF",       # ruff's own
+]
+ignore = [
+    #"B008",      # function call in default arg — Depends() requires this
+]
+
+[tool.ruff.lint.per-file-ignores]
+"migrations/versions/*" = ["E501"]
+
