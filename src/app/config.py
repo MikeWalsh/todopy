@@ -12,3 +12,7 @@ class Settings(BaseSettings):
 
 
 settings = Settings()  # pyright: ignore[reportCallIssue]
+
+# Explicit type error to verify pyrefly is actually doing something
+# def _canary(x: int) -> str:
+#     return x

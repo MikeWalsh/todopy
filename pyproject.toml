@@ -63,3 +63,5 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 "migrations/versions/*" = ["E501"]
 
+[tool.pyrefly]
+project-includes = ["src", "tests"]

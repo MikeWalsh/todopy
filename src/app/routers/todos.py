@@ -1,4 +1,4 @@
-from typing import Annotated
+from typing import Annotated  # , reveal_type
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
@@ -31,6 +31,11 @@ async def create_todo(payload: TodoCreate, session: SessionDep):
     session.add(todo)
     await session.commit()
     await session.refresh(todo)
+
+    # show type error in pyrefly
+    # todo = Todo(title=123)
+    # reveal_type(todo.title)
+
     return todo
 
 
